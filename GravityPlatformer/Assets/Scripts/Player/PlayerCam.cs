@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerCam : MonoBehaviour
 {
     [SerializeField]
-    private float yOffset = 3, smoothPos = 3;
+    private float yOffset = 3, smoothPos = 3, yOffsetSwitchDuration = 1f;
 
     [SerializeField]
     private GameObject player = null;
@@ -16,8 +16,29 @@ public class PlayerCam : MonoBehaviour
             Time.fixedDeltaTime * smoothPos);
     }
 
-    public void FlipYOffset()
+    public IEnumerator FlipYOffset()
     {
-        yOffset *= -1;
+        float elapsed = 0.0f;
+        float neededOffset = yOffset * -1;
+        int sign = 1;
+        if (neededOffset < 0)
+        {
+            sign = -1;
+        }
+        float differenceBetweenOffset = yOffset * 2;
+        if (differenceBetweenOffset < 1)
+        {
+            differenceBetweenOffset *= -1;
+        }
+
+        while (elapsed < yOffsetSwitchDuration)
+        {
+            float addedOffset = (differenceBetweenOffset * (Time.deltaTime / yOffsetSwitchDuration)) * sign;
+            yOffset += addedOffset;
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        yOffset = neededOffset;
     }
 }

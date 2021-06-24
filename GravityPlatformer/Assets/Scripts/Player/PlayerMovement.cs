@@ -7,18 +7,24 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private float addedMovementSpeed = 0.5f, slowDownSpeed = 0.99f, maxMovementSpeed = 5, jumpSpeed = 5;
 
-    private float currentMoveSpeed = 0;
+    private float currentMoveSpeed = 0, rayDist = 0;
 
     private bool canJump = false;
+
+    public bool setRotationConstraint { get; set; } = true;
 
     private new Rigidbody2D rigidbody = null;
 
     [System.NonSerialized]
     private Vector3 rotationConstraint = Vector3.zero;
 
+    [SerializeField]
+    private LayerMask layerMask = 0;
+
     private void Start()
     {
         rigidbody = GetComponent<Rigidbody2D>();
+        rayDist = GetComponent<BoxCollider2D>().bounds.size.y / 2 + 0.02f;
     }
 
     private void Update()
@@ -53,28 +59,42 @@ public class PlayerMovement : MonoBehaviour
 
         velocity.x = currentMoveSpeed;
 
+        canJump = GroundCheck();
+
         if (Input.GetKeyDown(KeyCode.Space) && canJump)
         {
             velocity.y += jumpSpeed;
         }
 
         rigidbody.velocity = velocity;
-        transform.eulerAngles = rotationConstraint;
-    }
 
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        if (collision.transform.tag == "Ground")
+        if (setRotationConstraint)
         {
-            canJump = true;
+            transform.eulerAngles = rotationConstraint;
         }
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
+    private bool GroundCheck()
     {
-        if (collision.transform.tag == "Ground")
+        if (Physics2D.Raycast(transform.position, -transform.up, rayDist, layerMask))
         {
-            canJump = false;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public void FlipJumpSpeed()
+    {
+        jumpSpeed *= -1;
+        if (rotationConstraint == Vector3.zero)
+        {
+            rotationConstraint = new Vector3(0, 0, 180);
+        } else
+        {
+            rotationConstraint = Vector3.zero;
         }
     }
 }
