@@ -1,17 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GravitySwitch : MonoBehaviour
 {
     [SerializeField]
     private PlayerCam playerCam = null;
 
-    [SerializeField]
     private PlayerMovement playerMovement = null;
 
     [SerializeField]
     private float gravityFlipCooldown = 3f;
+
+    [SerializeField]
+    private Image cooldownImage = null;
 
     private float timer = 0;
 
@@ -20,12 +23,14 @@ public class GravitySwitch : MonoBehaviour
     private void Start()
     {
         playerMovement = GetComponent<PlayerMovement>();
+        cooldownImage.gameObject.SetActive(false);
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Z) && timer <= 0)
         {
+            cooldownImage.gameObject.SetActive(true);
             reverseGravity = !reverseGravity;
             timer = gravityFlipCooldown;
             playerMovement.FlipJumpSpeed();
@@ -44,7 +49,16 @@ public class GravitySwitch : MonoBehaviour
             }
         }
 
-        timer -= Time.deltaTime;
+        if (timer > 0)
+        {
+            timer -= Time.deltaTime;
+            cooldownImage.fillAmount = timer / gravityFlipCooldown;
+
+            if (timer <= 0)
+            {
+                cooldownImage.gameObject.SetActive(false);
+            }
+        }
     }
 
     private void SwitchRotationConstraint()
