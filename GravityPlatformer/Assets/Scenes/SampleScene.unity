@@ -361,6 +361,7 @@ GameObject:
   - component: {fileID: 524971525}
   - component: {fileID: 524971527}
   - component: {fileID: 524971528}
+  - component: {fileID: 524971529}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -514,6 +515,25 @@ MonoBehaviour:
   playerCam: {fileID: 519420030}
   playerMovement: {fileID: 0}
   gravityFlipCooldown: 2
+--- !u!95 &524971529
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 524971522}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e2f6795c0990bd44ca365e1b9e018629, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &571702549
 PrefabInstance:
   m_ObjectHideFlags: 0

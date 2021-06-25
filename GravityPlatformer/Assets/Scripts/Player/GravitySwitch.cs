@@ -15,6 +15,8 @@ public class GravitySwitch : MonoBehaviour
 
     private float timer = 0;
 
+    public bool reverseGravity { get; set; } = false;
+
     private void Start()
     {
         playerMovement = GetComponent<PlayerMovement>();
@@ -24,6 +26,7 @@ public class GravitySwitch : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Z) && timer <= 0)
         {
+            reverseGravity = !reverseGravity;
             timer = gravityFlipCooldown;
             playerMovement.FlipJumpSpeed();
             playerMovement.setRotationConstraint = false;
