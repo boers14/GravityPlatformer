@@ -14,7 +14,7 @@ public class CreateCannon : MonoBehaviour
 
     private float placementDist = 0;
 
-    void Start()
+    private void Start()
     {
         placementDist = GetComponent<BoxCollider2D>().bounds.size.x / 2 + 0.02f;
     }
