@@ -21,6 +21,8 @@ public class GrappleCannon : MonoBehaviour
 
     private Vector3 returnPos = Vector3.zero;
 
+    private Animator animator = null;
+
     private void Start()
     {
         Vector3 pos = transform.position;
@@ -28,6 +30,7 @@ public class GrappleCannon : MonoBehaviour
         transform.position = pos;
         placementDist = GetComponent<BoxCollider2D>().bounds.size.x / 2 + 0.02f;
         upPlacementDist = GetComponent<BoxCollider2D>().bounds.size.y * 0.2f;
+        animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -46,6 +49,8 @@ public class GrappleCannon : MonoBehaviour
             allGrapplePieces.Add(currentGrapple);
 
             GetComponent<PlayerMovement>().enabled = false;
+            GetComponent<GravitySwitch>().enabled = false;
+            animator.SetBool("isWalking", false);
 
             GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
             iTween.MoveTo(currentGrapple, iTween.Hash("position", currentGrapple.transform.position + (transform.right * grappleDistance) , 
@@ -91,5 +96,11 @@ public class GrappleCannon : MonoBehaviour
         GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
         GetComponent<Rigidbody2D>().AddForce(-transform.up * 0.01f);
         GetComponent<PlayerMovement>().enabled = true;
+        GetComponent<GravitySwitch>().enabled = true;
+
+        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow))
+        {
+            animator.SetBool("isWalking", true);
+        }
     }
 }

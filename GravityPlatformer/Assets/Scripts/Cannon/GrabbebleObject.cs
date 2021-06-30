@@ -14,4 +14,20 @@ public class GrabbebleObject : MonoBehaviour
     public InteractState interactState = InteractState.Grab;
 
     public UnityEvent pushEvent = null;
+
+    private Vector3 startPos = Vector3.zero;
+
+    private void Start()
+    {
+        startPos = transform.position;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.tag == "DeathBlock")
+        {
+            transform.position = startPos;
+            GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+        }
+    }
 }

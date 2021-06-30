@@ -7,7 +7,9 @@ TagManager:
   - Ground
   - GravityFlip
   - LevelSelectIcon
+  - UndetectedByGrapple
   - Grapple
+  - DeathBlock
   layers:
   - Default
   - TransparentFX

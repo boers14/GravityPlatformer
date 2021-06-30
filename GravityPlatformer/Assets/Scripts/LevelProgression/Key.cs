@@ -41,6 +41,7 @@ public class Key : MonoBehaviour
             isPickedUp = true;
             GetComponent<BoxCollider2D>().isTrigger = true;
             GetComponent<Rigidbody2D>().gravityScale = 0;
+            tag = "UndetectedByGrapple";
         }
     }
 }

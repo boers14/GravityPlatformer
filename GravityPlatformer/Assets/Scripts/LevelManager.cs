@@ -16,6 +16,8 @@ public class LevelManager : MonoBehaviour
     [System.NonSerialized]
     public Vector3 playerPos = Vector3.zero;
 
+    private Vector2 originalGravity = Vector2.zero;
+
     [System.NonSerialized]
     public bool isInOverworld = true, playerCompletedLevel = false, isOriginalObject = false;
 
@@ -43,6 +45,8 @@ public class LevelManager : MonoBehaviour
         {
             allLevels[i].SetTheLevelStats();
         }
+
+        originalGravity = Physics2D.gravity;
     }
 
     private void OnLevelWasLoaded(int level)
@@ -50,6 +54,10 @@ public class LevelManager : MonoBehaviour
         if (isInOverworld && isOriginalObject)
         {
             FetchAndSetAllStats();
+        }
+        else if (isOriginalObject)
+        {
+            Physics2D.gravity = originalGravity;
         }
     }
 

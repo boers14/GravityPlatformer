@@ -37,6 +37,7 @@ public class GravitySwitch : MonoBehaviour
             playerMovement.setRotationConstraint = false;
             Physics2D.gravity *= -1;
             StartCoroutine(playerCam.FlipYOffset());
+            GetComponent<GrappleCannon>().enabled = false;
 
             iTween.RotateTo(gameObject, iTween.Hash("z", transform.eulerAngles.z + 180, "time", 0.4f, "easetype", iTween.EaseType.linear,
                 "oncomplete", "SwitchRotationConstraint", "oncompletetarget", gameObject));
@@ -64,5 +65,6 @@ public class GravitySwitch : MonoBehaviour
     private void SwitchRotationConstraint()
     {
         playerMovement.setRotationConstraint = true;
+        GetComponent<GrappleCannon>().enabled = true;
     }
 }

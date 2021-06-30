@@ -29,7 +29,7 @@ public class Grapple : MonoBehaviour
             }
         }
 
-        if (!returning && collision.gameObject != grappleCannon.gameObject && collision.tag != "Grapple") {
+        if (!returning && collision.gameObject != grappleCannon.gameObject && collision.tag != "UndetectedByGrapple") {
             returning = true;
             grappleCannon.MoveGrappleBack();
             if (collision.GetComponent<GrabbebleObject>() != null)
@@ -51,6 +51,7 @@ public class Grapple : MonoBehaviour
         if (grabbedObject != null)
         {
             grabbedObject.GetComponent<Rigidbody2D>().gravityScale = 1;
+            grabbedObject.GetComponent<Rigidbody2D>().AddForce(-transform.right * 250);
         }
     }
 }
