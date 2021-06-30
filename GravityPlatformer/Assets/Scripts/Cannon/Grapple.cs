@@ -29,7 +29,7 @@ public class Grapple : MonoBehaviour
             }
         }
 
-        if (!returning && collision.gameObject != grappleCannon.gameObject) {
+        if (!returning && collision.gameObject != grappleCannon.gameObject && collision.tag != "Grapple") {
             returning = true;
             grappleCannon.MoveGrappleBack();
             if (collision.GetComponent<GrabbebleObject>() != null)

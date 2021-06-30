@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Ground
   - GravityFlip
+  - LevelSelectIcon
+  - Grapple
   layers:
   - Default
   - TransparentFX
@@ -42,4 +44,25 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Bg
+    uniqueID: 171857127
+    locked: 0
+  - name: BgSurroundingObject
+    uniqueID: 1867843445
+    locked: 0
+  - name: Ground
+    uniqueID: 2339588175
+    locked: 0
+  - name: SurroundingObject
+    uniqueID: 2103452299
+    locked: 0
+  - name: PlayerProps
+    uniqueID: 1537142507
+    locked: 0
+  - name: KeyItems
+    uniqueID: 1889271793
+    locked: 0
+  - name: Player
+    uniqueID: 1841255359
     locked: 0

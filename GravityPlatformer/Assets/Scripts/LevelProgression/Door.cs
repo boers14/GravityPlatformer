@@ -1,0 +1,30 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class Door : MonoBehaviour
+{
+    [SerializeField]
+    private bool isDoorBeforeOverWorld = false;
+
+    [System.NonSerialized]
+    public bool isOpen = false;
+
+    [SerializeField]
+    private string nextLevel = "";
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (isOpen && collision.tag == "Player")
+        {
+            if (isDoorBeforeOverWorld)
+            {
+                LevelManager.instance.isInOverworld = true;
+                LevelManager.instance.playerCompletedLevel = true;
+            }
+
+            SceneManager.LoadScene(nextLevel);
+        }
+    }
+}
