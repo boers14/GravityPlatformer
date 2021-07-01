@@ -10,6 +10,7 @@ TagManager:
   - UndetectedByGrapple
   - Grapple
   - DeathBlock
+  - BlackUFO
   layers:
   - Default
   - TransparentFX

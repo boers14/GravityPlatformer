@@ -19,8 +19,17 @@ EditorBuildSettings:
     guid: ba30410a53ae8fa42b057b3cd0582149
   - enabled: 1
     path: Assets/Scenes/IntroLevels/IntroLevelPart4.unity
+    guid: 7aeb7ac5dbd605e4b830aab06a59ae36
+  - enabled: 1
+    path: Assets/Scenes/CrossroadLevels/Crossroad1.unity
     guid: d380754a846f48346b2c746bf2571253
   - enabled: 1
-    path: Assets/Scenes/IntroLevels/IntroLevelPart5.unity
-    guid: 7aeb7ac5dbd605e4b830aab06a59ae36
+    path: Assets/Scenes/CrossroadLevels/Crossroad2.unity
+    guid: 6a8cdb2cfc3ea7940a75c4a23b09c432
+  - enabled: 1
+    path: Assets/Scenes/CrossroadLevels/Crossroad3.unity
+    guid: 5e9c2e278a901f74fb973b966bc47c4c
+  - enabled: 1
+    path: Assets/Scenes/CrossroadLevels/Crossroad4.unity
+    guid: aa91089c02198854699bbf65d53f7920
   m_configObjects: {}

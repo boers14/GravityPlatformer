@@ -50,8 +50,20 @@ public class Grapple : MonoBehaviour
     {
         if (grabbedObject != null)
         {
-            grabbedObject.GetComponent<Rigidbody2D>().gravityScale = 1;
-            grabbedObject.GetComponent<Rigidbody2D>().AddForce(-transform.right * 250);
+            if (Input.GetKey(KeyCode.X))
+            {
+                grabbedObject.GetComponent<BoxCollider2D>().isTrigger = true;
+                grabbedObject.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+
+                grappleCannon.extraCarryDist = grabbedObject.GetComponent<SpriteRenderer>().size.x / 2;
+                grappleCannon.isCarrying = true;
+                grappleCannon.carriedObject = grabbedObject;
+            }
+            else
+            {
+                grabbedObject.GetComponent<Rigidbody2D>().gravityScale = 1;
+                grabbedObject.GetComponent<Rigidbody2D>().AddForce(-transform.right * 300);
+            }
         }
     }
 }

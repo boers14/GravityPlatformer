@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -129,6 +130,11 @@ public class PlayerMovement : MonoBehaviour
             rotation = transform.eulerAngles;
             rotation.z = rotationConstraint.z;
             transform.eulerAngles = rotation;
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 

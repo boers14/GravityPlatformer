@@ -42,6 +42,7 @@ public class Key : MonoBehaviour
             GetComponent<BoxCollider2D>().isTrigger = true;
             GetComponent<Rigidbody2D>().gravityScale = 0;
             tag = "UndetectedByGrapple";
+            gameObject.layer = 3;
         }
     }
 }

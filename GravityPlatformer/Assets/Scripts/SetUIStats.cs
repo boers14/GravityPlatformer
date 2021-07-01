@@ -116,26 +116,9 @@ public class SetUIStats : MonoBehaviour
         decimalGrowth.y = size.y / originalSize.y;
 
         RectTransform uiTransform = uiObject.GetComponent<RectTransform>();
-        bool keepSameSize = false;
-        if (uiTransform.sizeDelta.x == uiTransform.sizeDelta.y)
-        {
-            keepSameSize = true;
-        }
-
         Vector2 newSize = Vector2.zero;
         newSize.x = uiTransform.sizeDelta.x * decimalGrowth.x;
         newSize.y = uiTransform.sizeDelta.y * decimalGrowth.y;
-
-        if (keepSameSize)
-        {
-            if (newSize.x > newSize.y)
-            {
-                newSize.y = newSize.x;
-            } else
-            {
-                newSize.x = newSize.y;
-            }
-        }
 
         uiTransform.sizeDelta = newSize;
 

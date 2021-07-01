@@ -12,6 +12,15 @@ public class GrappleCannon : MonoBehaviour
 
     private bool isFiring = false, isRetreating = false;
 
+    [System.NonSerialized]
+    public bool isCarrying = false;
+
+    [System.NonSerialized]
+    public Transform carriedObject = null;
+
+    [System.NonSerialized]
+    public float extraCarryDist = 0;
+
     private float placementDist = 0, upPlacementDist = 0, timer = 0, retreatTime = 0;
 
     private GameObject currentGrapple = null;
@@ -28,39 +37,54 @@ public class GrappleCannon : MonoBehaviour
         Vector3 pos = transform.position;
         pos.z += 1;
         transform.position = pos;
-        placementDist = GetComponent<BoxCollider2D>().bounds.size.x / 2 + 0.02f;
+        placementDist = GetComponent<BoxCollider2D>().bounds.size.x / 4;
         upPlacementDist = GetComponent<BoxCollider2D>().bounds.size.y * 0.2f;
         animator = GetComponent<Animator>();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.X) && !isFiring)
+        if (isCarrying)
         {
-            isFiring = true;
-
-            iTween.Stop(gameObject);
-            returnPos = transform.position + transform.right * placementDist - (transform.up * upPlacementDist);
-            currentGrapple = Instantiate(grapple, returnPos, transform.rotation);
-            currentGrapple.transform.SetParent(transform);
-
-            currentGrapple.GetComponentInChildren<Grapple>().grappleCannon = this;
-            currentGrapple.GetComponent<Rope>().grappleCannon = this;
-            allGrapplePieces.Add(currentGrapple);
-
-            GetComponent<PlayerMovement>().enabled = false;
-            GetComponent<GravitySwitch>().enabled = false;
-            animator.SetBool("isWalking", false);
-
-            GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-            iTween.MoveTo(currentGrapple, iTween.Hash("position", currentGrapple.transform.position + (transform.right * grappleDistance) , 
-                "time", tweenTime / 2, "easetype", iTween.EaseType.linear, "oncomplete", "MoveGrappleBack", "oncompletetarget", gameObject));
-            timer = tweenTime / 2;
-        }
-
-        if (timer > 0 )
+            if (Input.GetKey(KeyCode.X) && carriedObject != null)
+            {
+                carriedObject.position = transform.position + transform.right * (placementDist * 2 + extraCarryDist);
+            } else
+            {
+                carriedObject.GetComponent<Rigidbody2D>().gravityScale = 1;
+                carriedObject.GetComponent<BoxCollider2D>().isTrigger = false;
+                isCarrying = false;
+                carriedObject = null;
+            }
+        } else
         {
-            timer -= Time.deltaTime;
+            if (Input.GetKeyDown(KeyCode.X) && !isFiring)
+            {
+                isFiring = true;
+
+                iTween.Stop(gameObject);
+                returnPos = transform.position + transform.right * placementDist - (transform.up * upPlacementDist);
+                currentGrapple = Instantiate(grapple, returnPos, transform.rotation);
+                currentGrapple.transform.SetParent(transform);
+
+                currentGrapple.GetComponentInChildren<Grapple>().grappleCannon = this;
+                currentGrapple.GetComponent<Rope>().grappleCannon = this;
+                allGrapplePieces.Add(currentGrapple);
+
+                GetComponent<PlayerMovement>().enabled = false;
+                GetComponent<GravitySwitch>().enabled = false;
+                animator.SetBool("isWalking", false);
+
+                GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+                iTween.MoveTo(currentGrapple, iTween.Hash("position", currentGrapple.transform.position + (transform.right * grappleDistance),
+                    "time", tweenTime / 2, "easetype", iTween.EaseType.linear, "oncomplete", "MoveGrappleBack", "oncompletetarget", gameObject));
+                timer = tweenTime / 2;
+            }
+
+            if (timer > 0)
+            {
+                timer -= Time.deltaTime;
+            }
         }
     }
 

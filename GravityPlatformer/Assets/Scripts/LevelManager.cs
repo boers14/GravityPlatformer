@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour
 {
@@ -9,7 +10,10 @@ public class LevelManager : MonoBehaviour
     [System.NonSerialized]
     public List<LevelSelectIcon> allLevels = new List<LevelSelectIcon>();
 
-    public List<bool> allLevelCompletedStats = new List<bool>();
+    [SerializeField]
+    private List<Sprite> filledInUFOImages = new List<Sprite>();
+
+    private List<bool> allLevelCompletedStats = new List<bool>();
 
     private int currentSelectedLevelIndex = 0;
 
@@ -80,13 +84,21 @@ public class LevelManager : MonoBehaviour
             allLevels[i].isCompleted = allLevelCompletedStats[i];
         }
 
+        GameObject[] blackUFOImages = GameObject.FindGameObjectsWithTag("BlackUFO");
+
         for (int i = 0; i < allLevels.Count; i++)
         {
             allLevels[i].SetTheLevelStats();
+
+            if (allLevelCompletedStats[i])
+            {
+                blackUFOImages[i].GetComponent<Image>().sprite = filledInUFOImages[i];
+            }
         }
 
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         player.transform.position = playerPos;
+        player.GetComponent<OverworldPlayer>().currentlySelectedLevelIcon = allLevels[currentSelectedLevelIndex];
     }
 
     public void SetCurrentLevelIndex(LevelSelectIcon level, Vector3 pos)
