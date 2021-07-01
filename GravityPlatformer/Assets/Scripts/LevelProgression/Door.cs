@@ -6,13 +6,21 @@ using UnityEngine.SceneManagement;
 public class Door : MonoBehaviour
 {
     [SerializeField]
-    private bool isDoorBeforeOverWorld = false;
+    private bool isDoorBeforeOverWorld = false, isAlwaysOpen = false;
 
     [System.NonSerialized]
     public bool isOpen = false;
 
     [SerializeField]
     private string nextLevel = "";
+
+    private void Start()
+    {
+        if (isAlwaysOpen)
+        {
+            isOpen = true;
+        }
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

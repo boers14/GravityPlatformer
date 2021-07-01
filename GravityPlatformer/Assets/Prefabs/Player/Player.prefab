@@ -150,7 +150,7 @@ MonoBehaviour:
   addedMovementSpeed: 0.5
   slowDownSpeed: 0.95
   maxMovementSpeed: 4
-  jumpSpeed: 3.5
+  jumpSpeed: 4
   layerMask:
     serializedVersion: 2
     m_Bits: 55
