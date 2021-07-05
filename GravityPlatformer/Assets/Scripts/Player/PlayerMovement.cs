@@ -149,7 +149,9 @@ public class PlayerMovement : MonoBehaviour
 
     private bool GroundCheck()
     {
-        if (Physics2D.Raycast(transform.position, -transform.up, verticalRayDist, layerMask))
+        if (Physics2D.Raycast(transform.position, -transform.up - (transform.right * horizontalRayDist), verticalRayDist + 0.03f, layerMask) ||
+            Physics2D.Raycast(transform.position, -transform.up + (transform.right * horizontalRayDist), verticalRayDist + 0.03f, layerMask) ||
+            Physics2D.Raycast(transform.position, -transform.up, verticalRayDist, layerMask))
         {
             return true;
         }

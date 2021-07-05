@@ -11,6 +11,10 @@ TagManager:
   - Grapple
   - DeathBlock
   - BlackUFO
+  - RedLock
+  - GreenLock
+  - BlueLock
+  - YellowLock
   layers:
   - Default
   - TransparentFX
@@ -19,7 +23,7 @@ TagManager:
   - Water
   - UI
   - Cannon
-  - 
+  - HitByExplosion
   - 
   - 
   - 

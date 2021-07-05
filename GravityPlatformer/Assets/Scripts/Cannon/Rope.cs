@@ -30,6 +30,7 @@ public class Rope : MonoBehaviour
                 if (removePrevRope)
                 {
                     prevRope.GetComponent<SpriteRenderer>().enabled = false;
+                    prevRope.GetComponent<BoxCollider2D>().enabled = false;
                 }
             }
         }

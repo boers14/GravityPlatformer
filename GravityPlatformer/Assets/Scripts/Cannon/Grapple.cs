@@ -26,6 +26,7 @@ public class Grapple : MonoBehaviour
             if (GetComponentInParent<Rope>().prevRope != null)
             {
                 GetComponentInParent<Rope>().prevRope.GetComponent<SpriteRenderer>().enabled = false;
+                GetComponentInParent<Rope>().prevRope.GetComponent<BoxCollider2D>().enabled = false;
             }
         }
 
@@ -34,13 +35,15 @@ public class Grapple : MonoBehaviour
             grappleCannon.MoveGrappleBack();
             if (collision.GetComponent<GrabbebleObject>() != null)
             {
+                if (collision.GetComponent<GrabbebleObject>().grappleInteractEvent != null)
+                {
+                    collision.GetComponent<GrabbebleObject>().grappleInteractEvent.Invoke();
+                }
+
                 if (collision.GetComponent<GrabbebleObject>().interactState == GrabbebleObject.InteractState.Grab)
                 {
                     grabbedObject = collision.transform;
                     grabbedObject.GetComponent<Rigidbody2D>().gravityScale = 0;
-                } else if (collision.GetComponent<GrabbebleObject>().interactState == GrabbebleObject.InteractState.Push)
-                {
-                    collision.GetComponent<GrabbebleObject>().pushEvent.Invoke();
                 }
             }
         }
@@ -50,11 +53,17 @@ public class Grapple : MonoBehaviour
     {
         if (grabbedObject != null)
         {
+            if (grabbedObject.GetComponent<GrabbebleObject>().endOfGrabEvent != null)
+            {
+                grabbedObject.GetComponent<GrabbebleObject>().endOfGrabEvent.Invoke();
+            }
+
             if (Input.GetKey(KeyCode.X))
             {
                 grabbedObject.GetComponent<BoxCollider2D>().isTrigger = true;
                 grabbedObject.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
 
+                grappleCannon.rigidbodyOfCarriedObject = grabbedObject.GetComponent<Rigidbody2D>();
                 grappleCannon.extraCarryDist = grabbedObject.GetComponent<SpriteRenderer>().size.x / 2;
                 grappleCannon.isCarrying = true;
                 grappleCannon.carriedObject = grabbedObject;

@@ -13,7 +13,10 @@ public class GrabbebleObject : MonoBehaviour
 
     public InteractState interactState = InteractState.Grab;
 
-    public UnityEvent pushEvent = null;
+    public UnityEvent grappleInteractEvent = null, endOfGrabEvent = null;
+
+    [SerializeField]
+    private bool isAffectedByDeadBlock = true;
 
     private Vector3 startPos = Vector3.zero;
 
@@ -24,7 +27,16 @@ public class GrabbebleObject : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.tag == "DeathBlock")
+        if (collision.collider.tag == "DeathBlock" && isAffectedByDeadBlock)
+        {
+            transform.position = startPos;
+            GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.collider.tag == "DeathBlock" && isAffectedByDeadBlock)
         {
             transform.position = startPos;
             GetComponent<Rigidbody2D>().velocity = Vector3.zero;

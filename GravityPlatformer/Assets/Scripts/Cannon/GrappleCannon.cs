@@ -32,6 +32,9 @@ public class GrappleCannon : MonoBehaviour
 
     private Animator animator = null;
 
+    [System.NonSerialized]
+    public Rigidbody2D rigidbodyOfCarriedObject = null;
+
     private void Start()
     {
         Vector3 pos = transform.position;
@@ -49,9 +52,10 @@ public class GrappleCannon : MonoBehaviour
             if (Input.GetKey(KeyCode.X) && carriedObject != null)
             {
                 carriedObject.position = transform.position + transform.right * (placementDist * 2 + extraCarryDist);
+                rigidbodyOfCarriedObject.gravityScale = 0;
             } else
             {
-                carriedObject.GetComponent<Rigidbody2D>().gravityScale = 1;
+                rigidbodyOfCarriedObject.gravityScale = 1;
                 carriedObject.GetComponent<BoxCollider2D>().isTrigger = false;
                 isCarrying = false;
                 carriedObject = null;
@@ -60,8 +64,6 @@ public class GrappleCannon : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.X) && !isFiring)
             {
-                isFiring = true;
-
                 iTween.Stop(gameObject);
                 returnPos = transform.position + transform.right * placementDist - (transform.up * upPlacementDist);
                 currentGrapple = Instantiate(grapple, returnPos, transform.rotation);
@@ -76,6 +78,9 @@ public class GrappleCannon : MonoBehaviour
                 animator.SetBool("isWalking", false);
 
                 GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+                SwapGravityForce(0);
+                SwapPlayerScriptActiveState(false);
+
                 iTween.MoveTo(currentGrapple, iTween.Hash("position", currentGrapple.transform.position + (transform.right * grappleDistance),
                     "time", tweenTime / 2, "easetype", iTween.EaseType.linear, "oncomplete", "MoveGrappleBack", "oncompletetarget", gameObject));
                 timer = tweenTime / 2;
@@ -111,7 +116,6 @@ public class GrappleCannon : MonoBehaviour
     private void ResetCannon()
     {
         isRetreating = false;
-        isFiring = false;
         for (int i = 0; i < allGrapplePieces.Count; i++)
         {
             Destroy(allGrapplePieces[i]);
@@ -119,12 +123,36 @@ public class GrappleCannon : MonoBehaviour
         allGrapplePieces.Clear();
         GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
         GetComponent<Rigidbody2D>().AddForce(-transform.up * 0.01f);
-        GetComponent<PlayerMovement>().enabled = true;
-        GetComponent<GravitySwitch>().enabled = true;
+        SwapGravityForce(1);
+        SwapPlayerScriptActiveState(true);
 
         if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow))
         {
             animator.SetBool("isWalking", true);
         }
+    }
+
+    private void SwapGravityForce(float gravityForce)
+    {
+        GameObject[] objectInfluencedByGravity = GameObject.FindGameObjectsWithTag("GravityFlip");
+        for (int i = 0; i < objectInfluencedByGravity.Length; i++)
+        {
+            if (objectInfluencedByGravity[i].GetComponent<Rigidbody2D>() != null)
+            {
+                objectInfluencedByGravity[i].GetComponent<Rigidbody2D>().gravityScale = gravityForce;
+                if (gravityForce == 0)
+                {
+                    objectInfluencedByGravity[i].GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+                }
+            }
+        }
+    }
+
+    private void SwapPlayerScriptActiveState(bool activeState)
+    {
+        isFiring = !activeState;
+
+        GetComponent<PlayerMovement>().enabled = activeState;
+        GetComponent<GravitySwitch>().enabled = activeState;
     }
 }
