@@ -10,7 +10,7 @@ public class LevelSelectIcon : MonoBehaviour
     public string levelConnectedToIcon = "";
 
     [System.NonSerialized]
-    public bool isCompleted = true, canSelect = false;
+    public bool isCompleted = false, canSelect = false;
 
     [SerializeField]
     private Color32 cantBeSelectedColor = Color.red, isNotBeatenColor = Color.blue, isBeatenColor = Color.green;
