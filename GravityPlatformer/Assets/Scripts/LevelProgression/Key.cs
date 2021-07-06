@@ -17,16 +17,25 @@ public class Key : MonoBehaviour
     [SerializeField]
     private Door connectedDoor = null;
 
+    private BoxCollider2D boxCollider = null;
+
     private void Start()
     {
         distanceFromPlayer = (GetComponent<SpriteRenderer>().size.x / 2) + 0.05f;
         downWardDistance = player.GetComponent<SpriteRenderer>().size.y / 2 - 0.25f;
+        boxCollider = GetComponent<BoxCollider2D>();
     }
 
     private void FixedUpdate()
     {
         if (isPickedUp)
         {
+            if (!boxCollider.isTrigger)
+            {
+                boxCollider.isTrigger = true;
+                GetComponent<Rigidbody2D>().gravityScale = 0;
+            }
+
             transform.position = Vector2.Lerp(transform.position, player.position - (player.right * distanceFromPlayer) - 
                 (player.up * downWardDistance), lerpFactor);
             transform.rotation = player.rotation;
@@ -39,7 +48,7 @@ public class Key : MonoBehaviour
         {
             connectedDoor.isOpen = true;
             isPickedUp = true;
-            GetComponent<BoxCollider2D>().isTrigger = true;
+            boxCollider.isTrigger = true;
             GetComponent<Rigidbody2D>().gravityScale = 0;
             tag = "UndetectedByGrapple";
             gameObject.layer = 3;

@@ -24,6 +24,16 @@ public class Door : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        GoToNextLevel(collision);
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        GoToNextLevel(collision);
+    }
+
+    private void GoToNextLevel(Collider2D collision)
+    {
         if (isOpen && collision.tag == "Player")
         {
             if (isDoorBeforeOverWorld)

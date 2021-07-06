@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelSelectIcon : MonoBehaviour
 {
@@ -14,6 +15,12 @@ public class LevelSelectIcon : MonoBehaviour
 
     [SerializeField]
     private Color32 cantBeSelectedColor = Color.red, isNotBeatenColor = Color.blue, isBeatenColor = Color.green;
+
+    [SerializeField]
+    private Sprite UFOPartCollectedSprite = null;
+
+    [SerializeField]
+    private Image blackUFOPart = null;
 
     public void SetTheLevelStats()
     {
@@ -39,6 +46,7 @@ public class LevelSelectIcon : MonoBehaviour
         if (isCompleted)
         {
             GetComponent<SpriteRenderer>().color = isBeatenColor;
+            blackUFOPart.sprite = UFOPartCollectedSprite;
         }
         else
         {
