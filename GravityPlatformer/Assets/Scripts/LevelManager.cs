@@ -64,6 +64,7 @@ public class LevelManager : MonoBehaviour
             playerPos.z = playerData.playerPos[2];
 
             SetPlayerStats();
+            CheckIfCompletedGame();
         }
         else
         {
@@ -118,6 +119,7 @@ public class LevelManager : MonoBehaviour
         }
 
         SetPlayerStats();
+        CheckIfCompletedGame();
 
         SaveSytem.SaveGame();
     }
@@ -127,6 +129,25 @@ public class LevelManager : MonoBehaviour
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         player.transform.position = playerPos;
         player.GetComponent<OverworldPlayer>().currentlySelectedLevelIcon = allLevels[currentSelectedLevelIndex];
+    }
+
+    private void CheckIfCompletedGame()
+    {
+        int completedLevelCount = 0;
+
+        for (int i = 0; i < allLevelCompletedStats.Count; i++)
+        {
+            if(allLevelCompletedStats[i])
+            {
+                completedLevelCount++;
+            }
+        }
+
+        if (completedLevelCount == allLevelCompletedStats.Count)
+        {
+            GameObject endGameObject = GameObject.FindGameObjectWithTag("EndGameEffects");
+            endGameObject.GetComponent<EndGameManager>().CelebrateEndGame();
+        }
     }
 
     public void SetCurrentLevelIndex(LevelSelectIcon level, Vector3 pos)

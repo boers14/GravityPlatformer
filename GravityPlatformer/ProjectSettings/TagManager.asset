@@ -15,6 +15,7 @@ TagManager:
   - GreenLock
   - BlueLock
   - YellowLock
+  - EndGameEffects
   layers:
   - Default
   - TransparentFX
