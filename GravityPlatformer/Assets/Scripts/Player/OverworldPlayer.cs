@@ -19,6 +19,8 @@ public class OverworldPlayer : MonoBehaviour
 
     private Animator animator = null;
 
+    private float cantMoveTimer = 0.25f;
+
     private void Start()
     {
         animator = GetComponent<Animator>();
@@ -27,6 +29,12 @@ public class OverworldPlayer : MonoBehaviour
 
     private void Update()
     {
+        if (cantMoveTimer >= 0)
+        {
+            cantMoveTimer -= Time.deltaTime;
+            return;
+        }
+
         if (Input.GetKeyDown(KeyCode.Z) && !isMoving)
         {
             LevelManager.instance.SetCurrentLevelIndex(currentlySelectedLevelIcon, transform.position);
@@ -63,6 +71,16 @@ public class OverworldPlayer : MonoBehaviour
             {
                 MoveToLevel(currentlySelectedLevelIcon.rightConnectedIcon);
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape) && !isMoving)
+        {
+            Application.Quit();
+        }
+
+        if (Input.GetKeyDown(KeyCode.D) && !isMoving)
+        {
+            SaveSytem.DeleteGame();
         }
     }
 

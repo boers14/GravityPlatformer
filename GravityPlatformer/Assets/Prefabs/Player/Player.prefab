@@ -147,13 +147,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f6e9874094c8ce4db605c5a268d541c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  addedMovementSpeed: 0.5
+  addedMovementSpeed: 0.25
   slowDownSpeed: 0.95
   maxMovementSpeed: 4
   jumpSpeed: 4
   layerMask:
     serializedVersion: 2
     m_Bits: 55
+  OverworldSceneName: Overworld
 --- !u!114 &4952291885547264026
 MonoBehaviour:
   m_ObjectHideFlags: 0

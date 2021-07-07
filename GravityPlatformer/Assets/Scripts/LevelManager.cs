@@ -10,9 +10,11 @@ public class LevelManager : MonoBehaviour
     [System.NonSerialized]
     public List<LevelSelectIcon> allLevels = new List<LevelSelectIcon>();
 
-    private List<bool> allLevelCompletedStats = new List<bool>();
+    [System.NonSerialized]
+    public List<bool> allLevelCompletedStats = new List<bool>();
 
-    private int currentSelectedLevelIndex = 0;
+    [System.NonSerialized]
+    public int currentSelectedLevelIndex = 0;
 
     [System.NonSerialized]
     public Vector3 playerPos = Vector3.zero;
@@ -32,14 +34,43 @@ public class LevelManager : MonoBehaviour
         } else
         {
             Destroy(gameObject);
+            return;
         }
 
         GameObject[] allLevelObjects = GameObject.FindGameObjectsWithTag("LevelSelectIcon");
-        allLevels.Clear();
         for (int i = 0; i < allLevelObjects.Length; i++)
         {
-            allLevelCompletedStats.Add(false);
             allLevels.Add(allLevelObjects[i].GetComponent<LevelSelectIcon>());
+        }
+
+        if (SaveSytem.CheckIfFileExist())
+        {
+            PlayerData playerData = SaveSytem.LoadGame();
+
+            for (int  i = 0; i < playerData.allLevelCompletedStats.Count; i++)
+            {
+                allLevelCompletedStats.Add(playerData.allLevelCompletedStats[i]);
+            }
+
+            for (int i = 0; i < allLevels.Count; i++)
+            {
+                allLevels[i].isCompleted = allLevelCompletedStats[i];
+            }
+
+            currentSelectedLevelIndex = playerData.playerLevelIndex;
+
+            playerPos.x = playerData.playerPos[0];
+            playerPos.y = playerData.playerPos[1];
+            playerPos.z = playerData.playerPos[2];
+
+            SetPlayerStats();
+        }
+        else
+        {
+            for (int i = 0; i < allLevelObjects.Length; i++)
+            {
+                allLevelCompletedStats.Add(false);
+            }
         }
 
         for (int i = 0; i < allLevels.Count; i++)
@@ -86,6 +117,13 @@ public class LevelManager : MonoBehaviour
             allLevels[i].SetTheLevelStats();
         }
 
+        SetPlayerStats();
+
+        SaveSytem.SaveGame();
+    }
+
+    private void SetPlayerStats()
+    {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         player.transform.position = playerPos;
         player.GetComponent<OverworldPlayer>().currentlySelectedLevelIcon = allLevels[currentSelectedLevelIndex];

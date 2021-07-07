@@ -26,6 +26,9 @@ public class PlayerMovement : MonoBehaviour
 
     private Animator animator = null;
 
+    [SerializeField]
+    private string OverworldSceneName = "";
+
     private void Start()
     {
         animator = GetComponent<Animator>();
@@ -69,7 +72,7 @@ public class PlayerMovement : MonoBehaviour
                 rotation.y = 180;
             }
 
-            if (currentMoveSpeed < maxMovementSpeed)
+            if (currentMoveSpeed < -maxMovementSpeed)
             {
                 currentMoveSpeed = -maxMovementSpeed;
             }
@@ -135,6 +138,12 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            LevelManager.instance.isInOverworld = true;
+            SceneManager.LoadScene(OverworldSceneName);
         }
     }
 
