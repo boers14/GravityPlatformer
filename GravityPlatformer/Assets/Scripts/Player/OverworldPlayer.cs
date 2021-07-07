@@ -24,7 +24,7 @@ public class OverworldPlayer : MonoBehaviour
     private void Start()
     {
         animator = GetComponent<Animator>();
-        currentlySelectedLevel = currentlySelectedLevelIcon.levelConnectedToIcon;
+        SetLevelString();
     }
 
     private void Update()
@@ -98,5 +98,10 @@ public class OverworldPlayer : MonoBehaviour
     {
         isMoving = false;
         animator.SetBool("isWalking", false);
+    }
+
+    public void SetLevelString()
+    {
+        currentlySelectedLevel = currentlySelectedLevelIcon.levelConnectedToIcon;
     }
 }

@@ -63,7 +63,7 @@ public class LevelManager : MonoBehaviour
             playerPos.y = playerData.playerPos[1];
             playerPos.z = playerData.playerPos[2];
 
-            SetPlayerStats();
+            SetPlayerStats(true);
             CheckIfCompletedGame();
         }
         else
@@ -118,17 +118,22 @@ public class LevelManager : MonoBehaviour
             allLevels[i].SetTheLevelStats();
         }
 
-        SetPlayerStats();
+        SetPlayerStats(false);
         CheckIfCompletedGame();
 
         SaveSytem.SaveGame();
     }
 
-    private void SetPlayerStats()
+    private void SetPlayerStats(bool setLevelString)
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         player.transform.position = playerPos;
         player.GetComponent<OverworldPlayer>().currentlySelectedLevelIcon = allLevels[currentSelectedLevelIndex];
+
+        if (setLevelString)
+        {
+            player.GetComponent<OverworldPlayer>().SetLevelString();
+        }
     }
 
     private void CheckIfCompletedGame()
