@@ -98,7 +98,7 @@ public class PlayerMovement : MonoBehaviour
 
         canJump = GroundCheck();
 
-        if (Input.GetKeyDown(KeyCode.Space) && canJump)
+        if (Input.GetKeyDown(KeyCode.Space) && canJump || Input.GetKeyDown(KeyCode.UpArrow) && canJump)
         {
             velocity.y += jumpSpeed;
         }
